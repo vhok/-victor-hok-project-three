@@ -1,0 +1,21 @@
+html {
+    font-size: 62.5%;
+}
+
+img {
+    display: block;
+    width: 100%;
+}
+
+h1, p {
+    margin: 0;
+    padding: 0;
+}
+
+// Default template applied to boxes
+@mixin template-box {
+    background-color: $lightgreen;
+    border: 5px solid $darkgreen;
+    box-shadow: 5px 5px #000;
+    border-radius: 5px;
+}

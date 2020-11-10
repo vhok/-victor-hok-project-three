@@ -1,0 +1,87 @@
+@import 'utils';
+@import 'global';
+@import 'variables';
+@import 'typography';
+
+// ******* CONTAINERS *******
+.wrapper {
+    max-width: $wrapper-max;
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+// ***** Header / Footer *****
+header, footer {
+    background-color: $darkgreen;
+    height: 5vh;
+}
+
+// ***** Main *****
+main {
+    background-color: $green;
+    padding: 50px 0;
+    min-height: 90vh;
+}
+
+main .wrapper {
+    display: flex;
+    // NOTE: Remember to space-between when screen size shrinks to media break point.
+    justify-content: space-evenly;
+
+    // Overwrite stretch default.
+    align-items: flex-start;
+}
+
+// ***** Section *****
+.floor-plan {
+    @include template-box();
+        // Allows scrollbars if the grid gets too big.
+        max-width: 50%;
+        max-height: 80vh;
+        overflow: auto;
+}
+
+.floor-plan__div-grid {
+    display: flex;
+    flex-wrap: wrap;
+
+    opacity: 0.5;
+    margin: 5px;
+
+    // width: This is set dynamically by JavaScript
+}
+
+.floor-plan__div-grid div {
+    border: 1px solid black;
+    background-color: $tan;
+    // CSS-TRICK: padding-bottom derives its % value from the parent's width.
+    // We can create a square with a height AND width that both scale its parent's width.
+    // flex-basis: 50%;
+    // padding-bottom: 50%;
+
+    width: 50px;
+    height: 50px;
+}
+
+.tool {
+    @include template-box();
+
+    height: 600px;
+    width: 300px;
+    // position: fixed;
+}
+
+.tool__div-widget {
+    padding: 2% 8%;
+}
+
+// ***** Images *****
+.floor-plan__div-img {
+    width: 100%;
+}
+
+.tool__div-img-bed {
+    width: 100px;
+}
+
+
