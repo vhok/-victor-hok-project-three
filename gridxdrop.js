@@ -1,3 +1,15 @@
+const item = {
+};
+
+
+
+const cell = {
+};
+
+cell.occupied = false;
+
+
+
 const grid = {
     // grid properties
     // sizeX: The horizontal length of the grid in units of "cells".
@@ -36,7 +48,7 @@ const grid = {
         for (let i = 0; i < sizeX; i++) {
             for (let j = 0; j < sizeY; j++) {
                 // Creates a div element, appends it to the grid, and pushes its jQuery object into a temporary array.
-                tempArray.push($("<div></div>").appendTo("#floor-plan__div-grid"));
+                tempArray.push($(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid"));
             }
             // Pushes the vertical array into cellArray.
             cellArray.push(tempArray);
@@ -49,11 +61,11 @@ const grid = {
         // Sets the width of the grid in pixels based on value x specified by user.
         $(".floor-plan__div-grid").width(50 * sizeX);
     }
-}
+};
 
 // DOCUMENT READY
 $(function() {
 
-    grid.init(10,10);
+    grid.init(10, 10);
 
 });

@@ -7,15 +7,20 @@ img {
     width: 100%;
 }
 
-h1, p {
+h1, h2, h3, h4, p {
     margin: 0;
     padding: 0;
 }
 
-// Default template applied to boxes
+// Default template style applied to boxes.
 @mixin template-box {
-    background-color: $lightgreen;
-    border: 5px solid $darkgreen;
+    background-color: $primary-color;
+    border: 5px solid $tertiary-color;
     box-shadow: 5px 5px #000;
     border-radius: 5px;
+}
+
+// For sizing of items relative to cell size.
+@mixin cell-width($units) {
+    width: $units * $cell-unit;
 }

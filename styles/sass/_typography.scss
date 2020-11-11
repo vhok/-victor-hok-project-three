@@ -1,14 +1,37 @@
 // ******** FONT STYLING *******
 h1, h2, h3, h4, p, a {
-    color: $tan;
+    color: $brand-color;
     text-align: center;
-    text-shadow: 1px 1px black;
+    text-shadow: 1px 1px 2px black;
+    // text-shadow: 1px 0 black, 0 1px black, -1px 0 black, 0 -1px black;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 2rem;
+}
+
+p {
+    font-size: 1.6rem;
+}
+
+.noun-project {
+    position: absolute;
+    bottom: 0;
 }
 
 .copywrite {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
 }
 
 a {
     text-decoration: none;
+    font-weight: bold;
 }

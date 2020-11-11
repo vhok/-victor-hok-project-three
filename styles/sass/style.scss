@@ -12,15 +12,15 @@
 
 // ***** Header / Footer *****
 header, footer {
-    background-color: $darkgreen;
-    height: 5vh;
+    background-color: $tertiary-color;
+    padding: 10px;
 }
 
 // ***** Main *****
 main {
-    background-color: $green;
+    background-color: $secondary-color;
     padding: 50px 0;
-    min-height: 90vh;
+    min-height: 100vh;
 }
 
 main .wrapper {
@@ -45,22 +45,18 @@ main .wrapper {
     display: flex;
     flex-wrap: wrap;
 
-    opacity: 0.5;
     margin: 5px;
 
     // width: This is set dynamically by JavaScript
+    position: relative;
 }
 
-.floor-plan__div-grid div {
+.floor-plan__div-cell {
     border: 1px solid black;
-    background-color: $tan;
-    // CSS-TRICK: padding-bottom derives its % value from the parent's width.
-    // We can create a square with a height AND width that both scale its parent's width.
-    // flex-basis: 50%;
-    // padding-bottom: 50%;
+    background-color: $brand-color;
 
-    width: 50px;
-    height: 50px;
+    width: $cell-unit;
+    height: $cell-unit;
 }
 
 .tool {
@@ -68,11 +64,15 @@ main .wrapper {
 
     height: 600px;
     width: 300px;
-    // position: fixed;
+    position: relative;
 }
 
 .tool__div-widget {
-    padding: 2% 8%;
+    padding: 2% 4%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 }
 
 // ***** Images *****
@@ -80,8 +80,29 @@ main .wrapper {
     width: 100%;
 }
 
+.tool__div-img {
+    background-color: $brand-color;
+    margin: 5px;
+}
+
 .tool__div-img-bed {
-    width: 100px;
+    @include cell-width(2);
+}
+
+.tool__div-img-sofa {
+    @include cell-width(3);
+}
+
+.tool__div-img-fridge {
+    @include cell-width(3);
 }
 
 
+.test {
+    position: absolute;
+    transform-origin: 0 0;
+    transform: translate(350px, 150px) rotateZ(-90deg);
+
+    width: 100px;
+    background-color:white;
+}
