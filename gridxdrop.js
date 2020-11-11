@@ -1,14 +1,46 @@
-const item = {
-};
-
-
-
-const cell = {
-};
-
-cell.occupied = false;
-
-
+// An array 'item' containing all furniture objects.
+const item = [{
+        sku: 'BEDDBLNEL',
+        name: "Neljyak Double Bed",
+        description: "He complained, 'What do I look like to you, a furniture designer?' But, since his Boss submitted the request, he had no choice. Crafted with black walnut wood and titanium tubing. This bed was made to last.",
+        price: 499.99,
+        sizeX: 2,
+        sizeY: 3,
+        position: {
+            x: 0,
+            y: 0,
+            orientation: 0
+        },
+        deployed: false
+    },
+    {
+        sku: 'SOFAMARA',
+        name: "Marathon Sofa",
+        description: "Super comfortable. Fits at least 3 people. Perfect for friends crashing over for a marathon of 'Buffy the Vampire Slayer'.",
+        price: 349.99,
+        sizeX: 3,
+        sizeY: 1,
+        position: {
+            x: 0,
+            y: 0,
+            orientation: 0
+        },
+        deployed: false
+    },
+    {
+        sku: 'FRIDGEBIG',
+        name: "One Big Fridge",
+        description: "It was a commercial grade fridge. Why would you ever need one that huge?... But, HEY, it was on SALE.",
+        price: 199.99,
+        sizeX: 3,
+        sizeY: 2,
+        position: {
+            x: 0,
+            y: 0,
+            orientation: 0
+        },
+        deployed: false
+    }];
 
 const grid = {
     // grid properties
@@ -23,10 +55,6 @@ const grid = {
     // ***** gridInit *****
     // Description: Sets the grid size based on user input.
     init: function (x = 1, y = 1) {
-        sizeX = x;
-        sizeY = y;
-        cellArray = [];
-
         // Purpose: To create a two-dimensional array where cellArray[x][y] accesses the specific cell located at (x, y).
         //
         // Method: The code below stuffs an array of cells into each entry of cellArray.
@@ -43,29 +71,36 @@ const grid = {
         //  | 0,1 | 1,1 |
         //  |_____|_____|
         //
-        const tempArray = [];
 
-        for (let i = 0; i < sizeX; i++) {
-            for (let j = 0; j < sizeY; j++) {
-                // Creates a div element, appends it to the grid, and pushes its jQuery object into a temporary array.
-                tempArray.push($(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid"));
+
+        for (let i = 0; i < x; i++) {
+            let tempArray = [];
+
+            for (let j = 0; j < y; j++) {
+                // Creates a 'cell' object, appends it to the grid, and pushes its jQuery object into a temporary array.
+                tempArray.push({occupied: false, element: $(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid")});
+                // DELETE: tempArray.push($(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid"));
             }
             // Pushes the vertical array into cellArray.
-            cellArray.push(tempArray);
-
-            // Clears the array without having to create a new one. 
-            // The other option would be to use 'let' instead of 'const' so that you may set tempArray = [];
-            tempArray.length = 0;
+            this.cellArray.push(tempArray);
         }
 
         // Sets the width of the grid in pixels based on value x specified by user.
-        $(".floor-plan__div-grid").width(50 * sizeX);
+        // IMPORTANT: This value must be in sync with _variables.scss $cell-unit.
+        $(".floor-plan__div-grid").width(50 * x);
+        this.sizeX = x;
+        this.sizeY = y;
     }
 };
+
+// All the functions you need to manipulate things.
+const widget = {
+
+}
 
 // DOCUMENT READY
 $(function() {
 
     grid.init(10, 10);
-
+    // grid.cellArray[0][0];
 });
