@@ -27,17 +27,44 @@
             </section>
             <section class="tool">
                 <h3>Tool Widget</h3>
-                <div class="tool__div-widget">
-                    <div class="tool__div-img-bed tool__div-img">
-                        <img src="./assets/noun_double bed_3x2.png" alt="A topdown view of a double bed">
-                    </div>
-                    <div class="tool__div-img-sofa tool__div-img">
-                        <img src="./assets/noun_Sofa_3x1.png" alt="A topdown view of a sofa">
-                    </div>
-                    <div class="tool__div-img-fridge tool__div-img">
-                        <img src="./assets/noun_Refrigerator_3x2.png" alt="A topdown view of a refrigerator">
-                    </div>
-                </div>
+                <form class="tool__div-widget">
+                    <label for="bed">
+                        <div class="tool__div-img-bed tool__div-img" id="tool__div-img-bed">
+                            <img src="./assets/noun_double bed_3x2.png" alt="A topdown view of a double bed">
+                        </div>
+                    </label>
+                    <input type="radio" name="furniture" id="bed">
+                    <label for="sofa">
+                        <div class="tool__div-img-sofa tool__div-img" id="tool__div-img-sofa">
+                            <img src="./assets/noun_Sofa_3x1.png" alt="A topdown view of a sofa">
+                        </div>                        
+                    </label>
+                    <input type="radio" name="furniture" id="sofa">
+                    <label for="fridge">
+                        <div class="tool__div-img-fridge tool__div-img" id="tool__div-img-fridge">
+                            <img src="./assets/noun_Refrigerator_3x2.png" alt="A topdown view of a refrigerator">
+                        </div>
+                    </label>
+                    <input type="radio" name="furniture" id="fridge">
+
+                    <fieldset class="form__fieldset-location">
+                        <legend>Furniture Cell Location (X, Y)</legend>
+                        <label for="cell-x">X: </label>
+                        <input type="number" name="cell-x" id="cell-x" min="0">
+                        <label for="cell-y">Y:</label>
+                        <input type="number" name="cell-y" id="cell-y" min="0">
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Movement Controls</legend>
+                        <label for="rotate-cw">Rotate CW</label>
+                        <input type="radio" name="rotate" id="rotate-cw">
+                        <label for="rotate-ccw">Rotate CCW</label>
+                        <input type="radio" name="rotate" id="rotate-ccw">
+                    </fieldset>
+
+                    <button type="submit">Drop Furniture</button>
+                </form>
                 <p class="noun-project">Furniture icons created by <a href="https://thenounproject.com/DenisseRa/collection/top-view-furniture/">Denisse Reyes</a> from Noun Project.</p>
             </section>
         </div>

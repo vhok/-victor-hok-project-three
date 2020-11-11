@@ -61,18 +61,21 @@ main .wrapper {
 
 .tool {
     @include template-box();
-
-    height: 600px;
+    height: 800px;
     width: 300px;
-    position: relative;
+    display: flex;
+    flex-direction: column;    
 }
 
 .tool__div-widget {
     padding: 2% 4%;
+    flex-grow: 1;
+    
     display: flex;
     flex-wrap: wrap;
+    // flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-content: space-around;
 }
 
 // ***** Images *****
@@ -97,7 +100,25 @@ main .wrapper {
     @include cell-width(3);
 }
 
+// FORMS, LABELS, INPUTS, BUTTONS
+.form__fieldset-location {
+    text-align: center;
+}
 
+.form__fieldset-location input {
+    width: 25%;
+}
+
+button {
+    background-color: $brand-color;
+    padding: 7px 16px;
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: $tertiary-color;
+    border-radius: 10px;
+}
+
+// MISC
 .test {
     position: absolute;
     transform-origin: 0 0;

@@ -2,7 +2,8 @@
 const item = [{
         sku: 'BEDDBLNEL',
         name: "Neljyak Double Bed",
-        description: "He complained, 'What do I look like to you, a furniture designer?' But, since his Boss submitted the request, he had no choice. Crafted with black walnut wood and titanium tubing. This bed was made to last.",
+        id: '#tool__div-img-bed',
+        description: "He complained, 'I make tools, not furniture. What do you think I am? A furniture designer?' But, since his Boss submitted the request, he had no choice. Crafted with black walnut wood and titanium tubing. This bed was made to last.",
         price: 499.99,
         sizeX: 2,
         sizeY: 3,
@@ -16,6 +17,7 @@ const item = [{
     {
         sku: 'SOFAMARA',
         name: "Marathon Sofa",
+        id: '#tool__div-img-sofa',
         description: "Super comfortable. Fits at least 3 people. Perfect for friends crashing over for a marathon of 'Buffy the Vampire Slayer'.",
         price: 349.99,
         sizeX: 3,
@@ -30,6 +32,7 @@ const item = [{
     {
         sku: 'FRIDGEBIG',
         name: "One Big Fridge",
+        id: '#tool__div-img-fridge',
         description: "It was a commercial grade fridge. Why would you ever need one that huge?... But, HEY, it was on SALE.",
         price: 199.99,
         sizeX: 3,
@@ -40,7 +43,7 @@ const item = [{
             orientation: 0
         },
         deployed: false
-    }];
+}];
 
 const grid = {
     // grid properties
@@ -79,7 +82,6 @@ const grid = {
             for (let j = 0; j < y; j++) {
                 // Creates a 'cell' object, appends it to the grid, and pushes its jQuery object into a temporary array.
                 tempArray.push({occupied: false, element: $(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid")});
-                // DELETE: tempArray.push($(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid"));
             }
             // Pushes the vertical array into cellArray.
             this.cellArray.push(tempArray);
@@ -90,6 +92,11 @@ const grid = {
         $(".floor-plan__div-grid").width(50 * x);
         this.sizeX = x;
         this.sizeY = y;
+
+        // Initialize the titles for images
+        for(furniture of item) {
+            $(furniture.id).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${"$" + furniture.price}`);
+        }
     }
 };
 
@@ -102,5 +109,5 @@ const widget = {
 $(function() {
 
     grid.init(10, 10);
-    // grid.cellArray[0][0];
+    // grid.cellArray[0][0][<property>];
 });
