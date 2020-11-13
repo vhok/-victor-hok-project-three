@@ -55,6 +55,10 @@ const item = [{
         deployed: false
 }];
 
+const errorCodes = [
+    '',
+    ''
+];
 
 // All the functions you need to manipulate things.
 const widget = {};
@@ -101,7 +105,10 @@ widget.rotateListener = () => {
 
         if(activeItem) {
             activeItem.position.rotation -= 1;
-            const rotationText = getRotateDirection(getRotateReduced(activeItem.position.rotation));
+            const rotationValue = getRotateReduced(activeItem.position.rotation);
+            const rotationText = getRotateDirection(rotationValue);
+
+            activeItem.position.rotation = rotationValue;
             $('#direction').val(rotationText);
         }
     });
@@ -112,12 +119,23 @@ widget.rotateListener = () => {
 
         if(activeItem) {
             activeItem.position.rotation += 1;
-            const rotationText = getRotateDirection(getRotateReduced(activeItem.position.rotation));
+            const rotationValue = getRotateReduced(activeItem.position.rotation);
+            const rotationText = getRotateDirection(rotationValue);
+
+            activeItem.position.rotation = rotationValue;
             $('#direction').val(rotationText);
         }
     });
 };
 
+widget.updateFields = () => {
+    $('#tool__div-widget input').on('click', () => {
+        const activeItem = widget.getActiveItem();
+        $('#cell-x').val(activeItem.position.x);
+        $('#cell-y').val(activeItem.position.y);
+        $('#direction').val(getRotateDirection(activeItem.position.rotation));
+    });
+};
 
 widget.moveListener = () => {
     $('form').on('submit', function(event) {
@@ -203,6 +221,7 @@ grid.init = function (x, y) {
     }
 
     // Initialize widget functionality
+    widget.updateFields();
     widget.rotateListener();
     widget.moveListener();
 };
