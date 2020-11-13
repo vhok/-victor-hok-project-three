@@ -22,7 +22,7 @@
                 <div class="floor-plan__div-grid" id="floor-plan__div-grid">
                     <!-- Generated tiles go here -->
                     <div class="test">
-                        <img src="./assets/noun_double bed_3x2.png" alt="A topdown view of a double bed">
+                        <img src="./assets/noun_double_bed_3x2.png" alt="A topdown view of a double bed">
                     </div>
                 </div>
             </section>
@@ -31,7 +31,7 @@
                 <form class="tool__div-widget">
                     <label for="bed">
                         <div class="tool__div-img-bed tool__div-img" id="tool__div-img-bed">
-                            <img src="./assets/noun_double bed_3x2.png" alt="A topdown view of a double bed">
+                            <img src="./assets/noun_double_bed_3x2.png" alt="A topdown view of a double bed">
                         </div>
                     </label>
                     <input type="radio" name="furniture" id="bed" class="furniture">
@@ -51,9 +51,9 @@
                     <fieldset class="form__fieldset-location">
                         <legend>Furniture Cell Location (X, Y)</legend>
                         <label for="cell-x">X: </label>
-                        <input type="number" name="cell-x" id="cell-x" min="0">
+                        <input type="number" name="cell-x" id="cell-x" min="0" required="true">
                         <label for="cell-y">Y:</label>
-                        <input type="number" name="cell-y" id="cell-y" min="0">
+                        <input type="number" name="cell-y" id="cell-y" min="0" required="true">
                         <button id="translate-up" aria-label="translate up"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
                         <div class="form__div-arrow-lat">
                             <button id="translate-left" aria-label="translate left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
@@ -75,7 +75,7 @@
                         <label for="output"><span class="sr-only">Output</span></label>
                         <textarea name="output" id="output" readonly="true"></textarea>
                     </fieldset>
-                    <button type="submit" id="preview">Preview</button>
+                    <!-- <button type="submit" id="preview">Preview</button> -->
                     <button type="submit" id="confirm">Confirm</button>
                 </form>
                 <p class="noun-project">Furniture icons created by <a href="https://thenounproject.com/DenisseRa/collection/top-view-furniture/">Denisse Reyes</a> from Noun Project.</p>

@@ -376,7 +376,10 @@ main .wrapper {
 }
 
 .floor-plan__div-img {
-  width: 100%;
+  position: absolute;
+  -webkit-transform-origin: 0 0;
+          transform-origin: 0 0;
+  background-color: white;
 }
 
 .tool__div-img {

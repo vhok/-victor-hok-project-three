@@ -1,3 +1,7 @@
+// Global variable
+// IMPORTANT: The of cellUnit must be in sync with _variables.scss $cell-unit for uniformity between CSS and JS.
+const cellUnit = 50;
+
 // An array 'item' containing all furniture objects. Global array.
 const item = [{
         sku: 'BEDDBLNEL',
@@ -8,6 +12,7 @@ const item = [{
         price: 499.99,
         sizeX: 2,
         sizeY: 3,
+        url: './assets/noun_double_bed_3x2.png',
         position: {
             x: 0,
             y: 0,
@@ -24,6 +29,7 @@ const item = [{
         price: 349.99,
         sizeX: 3,
         sizeY: 1,
+        url: './assets/noun_Sofa_3x1.png',
         position: {
             x: 0,
             y: 0,
@@ -40,6 +46,7 @@ const item = [{
         price: 199.99,
         sizeX: 3,
         sizeY: 2,
+        url: './assets/noun_Refrigerator_3x2.png',
         position: {
             x: 0,
             y: 0,
@@ -52,31 +59,26 @@ const item = [{
 // All the functions you need to manipulate things.
 const widget = {};
 
-widget.itemListener = () => {
+widget.moveListener = () => {
     // Creates an array where the value of the id property is the (only) value stored in each element. This is a preliminary step to locating the item's index based on which input you clicked on.
-    const itemIdArray = item.map( (element) => element.id);
+    const itemIdArray = item.map((element) => element.id);
 
-    $('.furniture').on('click', function() {
-        // Retrieves the index of the item corresponding to the input clicked.
-        const itemIndex = itemIdArray.indexOf(`${$(this).attr('id')}`);
+    $('form').on('submit', function(event) {
+        event.preventDefault();
+        const x = $('#cell-x').val();
+        const y = $('#cell-y').val();
 
-        console.log(itemIndex);
+        // Retrieves the index of the active item.
+        const itemIndex = itemIdArray.indexOf(`${$('input[name="furniture"]:checked').attr('id')}`);
+        const activeItem = item[itemIndex];
 
+        $(`
+        <div class="floor-plan__div-img">
+            <img src=${activeItem.url} alt=${activeItem.description}>
+        </div>`).appendTo('#floor-plan__div-grid').width(activeItem.sizeX * cellUnit);
     });
-
 };
 
-widget.locationListener = () => {
-
-};
-
-widget.orientationListener = () => {
-
-};
-
-widget.submitListener = () => {
-
-};
 
 const grid = {};
 // grid properties
@@ -118,9 +120,7 @@ grid.init = function (x, y) {
         this.cellArray.push(tempArray);
     }
 
-    // Sets the width of the grid in pixels based on value x specified by user.
-    // IMPORTANT: The argument value of .width() method must be in sync with _variables.scss $cell-unit.
-    $(".floor-plan__div-grid").width(50 * x);
+    $(".floor-plan__div-grid").width(cellUnit * x);
     this.sizeX = x;
     this.sizeY = y;
 
@@ -130,7 +130,7 @@ grid.init = function (x, y) {
     }
 
     // Initialize widget functionality
-    widget.itemListener();
+    widget.moveListener();
 };
 
 

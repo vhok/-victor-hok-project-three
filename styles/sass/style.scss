@@ -44,10 +44,7 @@ main .wrapper {
 .floor-plan__div-grid {
     display: flex;
     flex-wrap: wrap;
-
     margin: 5px;
-
-    // width: This is set dynamically by JavaScript
     position: relative;
 }
 
@@ -80,7 +77,9 @@ main .wrapper {
 
 // ***** Images *****
 .floor-plan__div-img {
-    width: 100%;
+    position: absolute;
+    transform-origin: 0 0;
+    background-color: white;
 }
 
 .tool__div-img {
@@ -99,6 +98,7 @@ main .wrapper {
 .tool__div-img-fridge {
     @include cell-width(3);
 }
+
 
 // FORMS, LABELS, INPUTS, BUTTONS
 .form__fieldset-location, .form__fieldset-controls, .form__fieldset-details {
