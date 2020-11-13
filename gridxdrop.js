@@ -16,7 +16,7 @@ const item = [{
         position: {
             x: 0,
             y: 0,
-            rotate: 0
+            rotation: 0
         },
         deployed: false
     },
@@ -33,7 +33,7 @@ const item = [{
         position: {
             x: 0,
             y: 0,
-            rotate: 0
+            rotation: 0
         },
         deployed: false
     },
@@ -50,7 +50,7 @@ const item = [{
         position: {
             x: 0,
             y: 0,
-            rotate: 0
+            rotation: 0
         },
         deployed: false
 }];
@@ -59,23 +59,96 @@ const item = [{
 // All the functions you need to manipulate things.
 const widget = {};
 
-widget.moveListener = () => {
-    // Creates an array where the value of the id property is the (only) value stored in each element. This is a preliminary step to locating the item's index based on which input you clicked on.
+// Retrieves the selected item on tool widget's corresponding itemArray element.
+widget.getActiveItem = () => {
     const itemIdArray = item.map((element) => element.id);
+    const itemIndex = itemIdArray.indexOf(`${$('input[name="furniture"]:checked').attr('id')}`);
+    return item[itemIndex];
+};
 
+widget.translateListener = () => {
+
+};
+
+widget.rotateListener = () => {
+    // rotation value meanings:
+    // 0 -> 'South'
+    // 1 -> 'West'
+    // 2 -> 'North'
+    // 3 -> 'East'
+
+    // Convert total rotation into one of four values representing direction.
+    getRotateReduced = (rotateValue) => rotateValue < 0 ? rotateValue%4 + 4 : rotateValue%4; 
+    
+    // Convert number value of rotation into letter designation like a compass (N, E, S, W).
+    getRotateDirection = (rotateValueReduced) => {
+        switch(rotateValueReduced) {
+            case 0:
+                return 'South';
+            case 1:
+                return 'West';
+            case 2:
+                return 'North';
+            case 3:
+                return 'East';
+            default:
+        }
+    }
+
+    $('#rotate-ccw').on('click', (event) => {
+        event.preventDefault();
+        const activeItem = widget.getActiveItem();
+
+        if(activeItem) {
+            activeItem.position.rotation -= 1;
+            const rotationText = getRotateDirection(getRotateReduced(activeItem.position.rotation));
+            $('#direction').val(rotationText);
+        }
+    });
+
+    $('#rotate-cw').on('click', (event) => {
+        event.preventDefault();
+        const activeItem = widget.getActiveItem();
+
+        if(activeItem) {
+            activeItem.position.rotation += 1;
+            const rotationText = getRotateDirection(getRotateReduced(activeItem.position.rotation));
+            $('#direction').val(rotationText);
+        }
+    });
+};
+
+
+widget.moveListener = () => {
     $('form').on('submit', function(event) {
         event.preventDefault();
-        const x = $('#cell-x').val();
-        const y = $('#cell-y').val();
+        const xCoord = ( $('#cell-x').val() * cellUnit ) + 'px';
+        const yCoord = ( $('#cell-y').val() * cellUnit ) + 'px';
 
-        // Retrieves the index of the active item.
-        const itemIndex = itemIdArray.indexOf(`${$('input[name="furniture"]:checked').attr('id')}`);
-        const activeItem = item[itemIndex];
+        const activeItem = widget.getActiveItem();
 
-        $(`
-        <div class="floor-plan__div-img">
-            <img src=${activeItem.url} alt=${activeItem.description}>
-        </div>`).appendTo('#floor-plan__div-grid').width(activeItem.sizeX * cellUnit);
+        if(!activeItem.deployed) {
+            $(`
+            <div class="floor-plan__div-img">
+                <img src=${activeItem.url} alt=${activeItem.description}>
+            </div>`)
+                .appendTo('#floor-plan__div-grid')
+                .width(activeItem.sizeX * cellUnit)
+                .css('top', xCoord)
+                .css('left', yCoord);
+
+            // Sets position object coordinates to match the user input.
+            activeItem.position.x = xCoord;
+            activeItem.position.y = yCoord;
+
+            // Sets 'deployed to grid' state to true to let widget know that furniture can't be deployed again.
+            activeItem.deployed = true;
+        } else {
+            console.log("can't do that bub");
+        }
+        
+
+
     });
 };
 
@@ -126,10 +199,11 @@ grid.init = function (x, y) {
 
     // Initialize the titles for images
     for(furniture of item) {
-        $(furniture.id).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${"$" + furniture.price}`);
+        $(furniture.imgId).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${"$" + furniture.price}`);
     }
 
     // Initialize widget functionality
+    widget.rotateListener();
     widget.moveListener();
 };
 
