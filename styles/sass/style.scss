@@ -64,7 +64,7 @@ main .wrapper {
     flex-direction: column;    
 }
 
-.tool__div-widget {
+.tool__form-widget {
     padding: 2% 4%;
     flex-grow: 1;
     
@@ -133,11 +133,11 @@ button {
 }
 
 // MISC
-.test {
-    position: absolute;
-    transform-origin: 0 0;
-    transform: translate(350px, 150px) rotateZ(-90deg);
+// .test {
+//     position: absolute;
+//     transform-origin: 0 0;
+//     transform: translate(350px, 150px) rotateZ(-90deg);
 
-    width: 100px;
-    background-color:white;
-}
+//     width: 100px;
+//     background-color:white;
+// }

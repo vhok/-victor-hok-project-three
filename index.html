@@ -21,14 +21,16 @@
             <section class="floor-plan">
                 <div class="floor-plan__div-grid" id="floor-plan__div-grid">
                     <!-- Generated tiles go here -->
-                    <div class="test">
+                    <!-- Generated items also go here -->
+                    
+                    <!-- <div class="test">
                         <img src="./assets/noun_double_bed_3x2.png" alt="A topdown view of a double bed">
-                    </div>
+                    </div> -->
                 </div>
             </section>
             <section class="tool">
                 <h3>Tool Widget</h3>
-                <form class="tool__div-widget" id="tool__div-widget">
+                <form class="tool__form-widget" id="tool__form-widget">
                     <label for="bed">
                         <div class="tool__div-img-bed tool__div-img" id="tool__div-img-bed">
                             <img src="./assets/noun_double_bed_3x2.png" alt="A topdown view of a double bed">
@@ -51,9 +53,9 @@
                     <fieldset class="form__fieldset-location" id="form__fieldset-location">
                         <legend>Furniture Cell Location (X, Y)</legend>
                         <label for="cell-x">X: </label>
-                        <input type="number" name="cell-x" id="cell-x" min="0" required="true">
+                        <input type="number" name="cell-x" id="form__input-cell-x" min="0" required="true">
                         <label for="cell-y">Y:</label>
-                        <input type="number" name="cell-y" id="cell-y" min="0" required="true">
+                        <input type="number" name="cell-y" id="form__input-cell-y" min="0" required="true">
                         <button id="translate-up" aria-label="translate up"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
                         <div class="form__div-arrow-lat">
                             <button id="translate-left" aria-label="translate left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
@@ -67,7 +69,7 @@
                         <button type="button" id="rotate-ccw" aria-label="rotate counter-clockwise"><i class="fas fa-undo" aria-hidden="true"></i></button>
                         <button type="button" id="rotate-cw" aria-label="rotate clockwise"><i class="fas fa-undo fa-flip-horizontal" aria-hidden="true"></i></button>
                         <label for="direction">Direction: </label>
-                        <input type="text" name="direction" id="direction" readonly="true">
+                        <input type="text" name="direction" id="form__input-direction" readonly="true">
                     </fieldset>
 
                     <fieldset class="form__fieldset-details">
