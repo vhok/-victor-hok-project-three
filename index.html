@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/34b81df2a3.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./styles/style.css">
     <title>Grid x Drop</title>
 </head>
@@ -53,17 +54,29 @@
                         <input type="number" name="cell-x" id="cell-x" min="0">
                         <label for="cell-y">Y:</label>
                         <input type="number" name="cell-y" id="cell-y" min="0">
+                        <button id="translate-up" aria-label="translate up"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+                        <div class="form__div-arrow-lat">
+                            <button id="translate-left" aria-label="translate left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
+                            <button id="translate-right" aria-label="translate right"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
+                        </div>
+                        <button id="translate-down" aria-label="translate down"><i class="fas fa-arrow-down" aria-hidden="true"></i></button>
                     </fieldset>
 
-                    <fieldset>
-                        <legend>Movement Controls</legend>
-                        <label for="rotate-cw">Rotate CW</label>
-                        <input type="radio" name="rotate" id="rotate-cw">
-                        <label for="rotate-ccw">Rotate CCW</label>
-                        <input type="radio" name="rotate" id="rotate-ccw">
+                    <fieldset class="form__fieldset-controls">
+                        <legend>Furniture Orientation</legend>
+                        <button id="rotate-ccw" aria-label="rotate counter-clockwise"><i class="fas fa-undo" aria-hidden="true"></i></button>
+                        <button id="rotate-cw" aria-label="rotate clockwise"><i class="fas fa-undo fa-flip-horizontal" aria-hidden="true"></i></button>
+                        <label for="direction">Direction: </label>
+                        <input type="text" name="direction" id="direction" readonly="true">
                     </fieldset>
 
-                    <button type="submit">Drop Furniture</button>
+                    <fieldset class="form__fieldset-details">
+                        <legend>Console</legend>
+                        <label for="console"><span class="sr-only">Console</span></label>
+                        <textarea name="console" id="console" cols="30" rows="5" readonly="true"></textarea>
+                    </fieldset>
+                    <button type="submit" id="preview">Preview</button>
+                    <button type="submit" class="btn--hidden" id="confirm">Confirm</button>
                 </form>
                 <p class="noun-project">Furniture icons created by <a href="https://thenounproject.com/DenisseRa/collection/top-view-furniture/">Denisse Reyes</a> from Noun Project.</p>
             </section>

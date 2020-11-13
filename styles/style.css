@@ -347,7 +347,7 @@ main .wrapper {
   -webkit-box-shadow: 5px 5px #000;
           box-shadow: 5px 5px #000;
   border-radius: 5px;
-  height: 800px;
+  min-height: 800px;
   width: 300px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -396,12 +396,26 @@ main .wrapper {
   width: 150px;
 }
 
-.form__fieldset-location {
+.form__fieldset-location, .form__fieldset-controls, .form__fieldset-details {
   text-align: center;
+  width: 100%;
 }
 
 .form__fieldset-location input {
-  width: 25%;
+  width: 35%;
+}
+
+.form__fieldset-controls input {
+  width: 20%;
+}
+
+.form__fieldset-details textarea {
+  width: 100%;
+  resize: none;
+}
+
+.form__div-arrow-lat button {
+  margin: 0 10px;
 }
 
 button {
