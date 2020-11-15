@@ -3,6 +3,10 @@
 // IMPORTANT: The of cellUnit must be in sync with _variables.scss $form__input-cell-unit for uniformity between CSS and JS.
 const cellUnit = 50;
 
+// Length of the grid in x and y
+const gridLengthX = 10;
+const gridLengthY = 10;
+
 // cellArray: An array that represents all the cells on the grid. 
 // element of cellArray -> { occupied: <boolean>, {jQuery object representing cell div} }
 cellArray = [];
@@ -62,9 +66,9 @@ const items = [{
 
 // Error codes mainly for accessibility users that can't experience full visualization and may require other forms of feedback. These are printed to output field in widget.
 const errorCodes = [
-    'Out of bounds',
-    'Collision with object',
-    'Item already deployed'
+    'object out of bounds',
+    'collision with object',
+    'item already deployed'
 ];
 
 // ******* NAMESPACE & METHODS *******
@@ -103,14 +107,18 @@ widget.getRotateDirection = (rotateValueReduced) => {
     }
 }
 
-// .isCollection(): Returns true of argument item collides with an existing one on the grid.
+// .isCollision(): Returns true of argument item collides with an existing one on the grid.
 widget.isCollision = (itemCheckCollides, xCheckCollides, yCheckCollides) => {
     const isNeutralOrientation = itemCheckCollides.position.rotation % 2 === 0;
     const xLength = isNeutralOrientation ? itemCheckCollides.sizeX : itemCheckCollides.sizeY;
     const yLength = isNeutralOrientation ? itemCheckCollides.sizeY : itemCheckCollides.sizeX;
 
-    for(i = xCheckCollides; i < yCheckCollides + xLength; i++) {
-        for(j = yCheckCollides; j < yCheckCollides + yLength; j++) {
+    // Never allow the array to search outside the grid.
+    const xToCheck = (xCheckCollides + xLength - 1 < gridLengthX) ? xCheckCollides + xLength : gridLengthX - 1;
+    const yToCheck = (yCheckCollides + yLength - 1 < gridLengthY) ? yCheckCollides + yLength : gridLengthY - 1;
+
+    for(i = xCheckCollides; i < xToCheck; i++) {
+        for(j = yCheckCollides; j < yToCheck; j++) {
             if(cellArray[i][j]['occupied']) return true;
         }
     }
@@ -118,6 +126,15 @@ widget.isCollision = (itemCheckCollides, xCheckCollides, yCheckCollides) => {
     return false;
 };
 
+// .isOutOfBounds(): Returns true if object is out of bounds.
+widget.isOutOfBounds = (itemCheckBounds, xCheckBounds, yCheckBounds) => {
+    const isNeutralOrientation = itemCheckBounds.position.rotation % 2 === 0;
+    const xLength = isNeutralOrientation ? itemCheckBounds.sizeX : itemCheckBounds.sizeY;
+    const yLength = isNeutralOrientation ? itemCheckBounds.sizeY : itemCheckBounds.sizeX;
+
+    // Only need to check right and bottom grid wall because user isn't able to enter negative values.
+    return xCheckBounds + xLength > gridLengthX || yCheckBounds + yLength > gridLengthY;
+};
 
 // ******* EVENT LISTENER METHODS *******
 
@@ -165,7 +182,7 @@ widget.rotateListener = () => {
     });
 };
 
-// final submit action for placement
+// submit action for item placement.
 widget.moveListener = () => {
     $('form').on('submit', function(event) {
         const activeItem = widget.getActiveItem();
@@ -177,10 +194,13 @@ widget.moveListener = () => {
             const xProposed = parseInt($('#form__input-cell-x').val());
             const yProposed = parseInt($('#form__input-cell-y').val());
             
-            // Check if the grid is clear of objects before placing activeItem
-            if(!widget.isCollision(activeItem, xProposed, yProposed)) {
+            // Check if the grid is clear of objects or active item is within bounds before placing activeItem.
+            const isOutOfBounds = widget.isOutOfBounds(activeItem, xProposed, yProposed);
+            const isCollision = widget.isCollision(activeItem, xProposed, yProposed);
 
-                // Update all remaining fields in the item object
+            if (!(isOutOfBounds || isCollision)) {
+
+                // Update all remaining fields in the item object.
                 activeItem.deployed = true;
                 activeItem.position.x = xProposed;
                 activeItem.position.y = yProposed;
@@ -222,13 +242,21 @@ widget.moveListener = () => {
                     .width(activeItem.sizeX * cellUnit)
                     .css("left", xTransform + 'px')
                     .css("top", yTransform + 'px')
-                    .css("transform", rotateTransform)
-            } else {
+                    .css("transform", rotateTransform);
+            } else if(isCollision && isOutOfBounds) {
+                // Collision and out of bounds error.
+                $('#form__input-output').val(`Error: ${errorCodes[1]} & ${errorCodes[0]}`);
+            } else if (isCollision) {
+                // Collision error.
                 $('#form__input-output').val(`Error: ${errorCodes[1]}`);
+            } else {
+                // Out of bounds error.
+                $('#form__input-output').val(`Error: ${errorCodes[0]}`);
             }
             
 
         } else {
+            // Already deployed error.
             $('#form__input-output').val(`Error: ${errorCodes[2]}`);
         }
         
@@ -279,6 +307,10 @@ grid.init = function (x, y) {
     this.sizeX = x;
     this.sizeY = y;
 
+    // Limit the input size to prevent errors
+    $('#form__input-cell-x').attr('max', gridLengthX - 1);
+    $('#form__input-cell-y').attr('max', gridLengthY - 1);
+
     // Initialize the titles for images
     for(furniture of items) {
         $(furniture.imgId).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${"$" + furniture.price}`);
@@ -292,10 +324,7 @@ grid.init = function (x, y) {
 
 
 
-
-
 // DOCUMENT READY
 $(function() {
-    grid.init(10, 10);
-
+    grid.init(gridLengthX, gridLengthY);
 });
