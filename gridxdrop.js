@@ -3,8 +3,12 @@
 // IMPORTANT: The of cellUnit must be in sync with _variables.scss $form__input-cell-unit for uniformity between CSS and JS.
 const cellUnit = 50;
 
+// cellArray: An array that represents all the cells on the grid. 
+// element of cellArray -> { occupied: <boolean>, {jQuery object representing cell div} }
+cellArray = [];
+
 // An array 'item' containing all furniture objects.
-const item = [{
+const items = [{
         sku: 'BEDDBLNEL',
         name: "Neljyak Double Bed",
         id: 'bed',
@@ -58,8 +62,9 @@ const item = [{
 
 // Error codes mainly for accessibility users that can't experience full visualization and may require other forms of feedback. These are printed to output field in widget.
 const errorCodes = [
-    '',
-    ''
+    'Out of bounds',
+    'Collision with object',
+    'Item already deployed'
 ];
 
 // ******* NAMESPACE & METHODS *******
@@ -70,13 +75,13 @@ const widget = {};
 // ******* METHODS *******
 // .getActiveItem(): Retrieves the object from itemArray that corresponds to currently selected item on widget.
 widget.getActiveItem = () => {
-    const itemIdArray = item.map((element) => element.id);
-    const itemIndex = itemIdArray.indexOf(`${$('input[name="furniture"]:checked').attr('id')}`);
-    return item[itemIndex];
+    const itemsIdArray = items.map((element) => element.id);
+    const itemIndex = itemsIdArray.indexOf(`${$('input[name="furniture"]:checked').attr('id')}`);
+    return items[itemIndex];
 };
 
-// .getRotateReduced(): Converts total rotation value into one of four values representing the item's direction.
-widget.getRotateReduced = (rotateValue) => rotateValue < 0 ? rotateValue % 4 + 4 : rotateValue % 4; 
+// .getRotateValueReduced(): Converts total rotation value into one of four values representing the item's direction.
+widget.getRotateValueReduced = (rotateValue) => rotateValue < 0 ? rotateValue % 4 + 4 : rotateValue % 4; 
 
 // .getRotateDirection(): Converts number value of rotation into letter designation like a compass (N, E, S, W).
 // rotation value meanings:
@@ -98,28 +103,25 @@ widget.getRotateDirection = (rotateValueReduced) => {
     }
 }
 
-// .updateWidgetFields(): 
-widget.updateWidgetFields = () => {
-    $('#tool__form-widget input').on('click', () => {
-        const activeItem = widget.getActiveItem();
-        $('#form__input-cell-x').val(activeItem.position.x);
-        $('#form__input-cell-y').val(activeItem.position.y);
-        $('#form__input-direction').val(widget.getRotateDirection(activeItem.position.rotation));
-    });
-};
+// .isCollection(): Returns true of argument item collides with an existing one on the grid.
+widget.isCollision = (itemCheckCollides, xCheckCollides, yCheckCollides) => {
+    const isNeutralOrientation = itemCheckCollides.position.rotation % 2 === 0;
+    const xLength = isNeutralOrientation ? itemCheckCollides.sizeX : itemCheckCollides.sizeY;
+    const yLength = isNeutralOrientation ? itemCheckCollides.sizeY : itemCheckCollides.sizeX;
 
-widget.updateCellData = () => {
+    for(i = xCheckCollides; i < yCheckCollides + xLength; i++) {
+        for(j = yCheckCollides; j < yCheckCollides + yLength; j++) {
+            if(cellArray[i][j]['occupied']) return true;
+        }
+    }
 
-};
-
-widget.updateGridData = () => {
-
+    return false;
 };
 
 
 // ******* EVENT LISTENER METHODS *******
 
-// .updateWidgetFields(): 
+// .updateFieldsListener(): 
 widget.updatetFieldsListener = () => {
     $('#tool__form-widget .furniture').on('click', () => {
         const activeItem = widget.getActiveItem();
@@ -130,7 +132,7 @@ widget.updatetFieldsListener = () => {
 };
 
 widget.translateListener = () => {
-
+    // $('.form__input-cell-x')
 };
 
 widget.rotateListener = () => {
@@ -140,7 +142,7 @@ widget.rotateListener = () => {
 
         if(activeItem) {
             activeItem.position.rotation -= 1;
-            const rotationValue = widget.getRotateReduced(activeItem.position.rotation);
+            const rotationValue = widget.getRotateValueReduced(activeItem.position.rotation);
             const rotationText = widget.getRotateDirection(rotationValue);
 
             activeItem.position.rotation = rotationValue;
@@ -154,7 +156,7 @@ widget.rotateListener = () => {
 
         if(activeItem) {
             activeItem.position.rotation += 1;
-            const rotationValue = widget.getRotateReduced(activeItem.position.rotation);
+            const rotationValue = widget.getRotateValueReduced(activeItem.position.rotation);
             const rotationText = widget.getRotateDirection(rotationValue);
 
             activeItem.position.rotation = rotationValue;
@@ -163,32 +165,71 @@ widget.rotateListener = () => {
     });
 };
 
+// final submit action for placement
 widget.moveListener = () => {
     $('form').on('submit', function(event) {
-        event.preventDefault();
-        const xCoord = ( $('#form__input-cell-x').val() * cellUnit ) + 'px';
-        const yCoord = ( $('#form__input-cell-y').val() * cellUnit ) + 'px';
-
         const activeItem = widget.getActiveItem();
 
-        if(!activeItem.deployed) {
-            $(`
-            <div class="floor-plan__div-img">
+        event.preventDefault();
+
+        if(activeItem && !activeItem.deployed) {            
+
+            const xProposed = parseInt($('#form__input-cell-x').val());
+            const yProposed = parseInt($('#form__input-cell-y').val());
+            
+            // Check if the grid is clear of objects before placing activeItem
+            if(!widget.isCollision(activeItem, xProposed, yProposed)) {
+
+                // Update all remaining fields in the item object
+                activeItem.deployed = true;
+                activeItem.position.x = xProposed;
+                activeItem.position.y = yProposed;
+                $('#form__input-output').val('');
+
+                // Updates cellArray coordinates to let the program know those cells are occupied by an item.
+                const isNeutralOrientation = activeItem.position.rotation % 2 === 0;
+                const xLength = isNeutralOrientation ? activeItem.sizeX : activeItem.sizeY;
+                const yLength = isNeutralOrientation ? activeItem.sizeY : activeItem.sizeX;
+
+                for (i = activeItem.position.x; i < activeItem.position.x + xLength; i++) {
+                    for (j = activeItem.position.y; j < activeItem.position.y + yLength; j++) {
+                        cellArray[i][j]['occupied'] = true;
+                    }
+                }
+
+                // Sets position object coordinates to match the user input.
+                const xTransform = (xProposed * cellUnit);
+                const yTransform = (yProposed * cellUnit);
+
+                // Sets rotational value.
+                let rotateTransform = '';
+
+                if (activeItem.position.rotation === 1) {
+                    rotateTransform = `translateX(${activeItem.sizeY * cellUnit}px) rotate(${activeItem.position.rotation * 90}deg)`;
+                } else if (activeItem.position.rotation === 2) {
+                    rotateTransform = `translate(${activeItem.sizeX * cellUnit}px, ${activeItem.sizeY * cellUnit}px) rotate(${activeItem.position.rotation * 90}deg)`;
+                } else if (activeItem.position.rotation === 3) {
+                    rotateTransform = `translateY(${activeItem.sizeX * cellUnit}px) rotate(${activeItem.position.rotation * 90}deg)`;
+                } else {
+                    rotateTransform = '';
+                }
+
+                $(`
+            <div class="floor-plan__div-img" id=${activeItem.id}>
                 <img src=${activeItem.url} alt=${activeItem.description}>
             </div>`)
-                .appendTo('#floor-plan__div-grid')
-                .width(activeItem.sizeX * cellUnit)
-                .css('top', xCoord)
-                .css('left', yCoord);
+                    .appendTo("#floor-plan__div-grid")
+                    .width(activeItem.sizeX * cellUnit)
+                    .css("left", xTransform + 'px')
+                    .css("top", yTransform + 'px')
+                    .css("transform", rotateTransform)
+            } else {
+                $('#form__input-output').val(`Error: ${errorCodes[1]}`);
+            }
+            
 
-            // Sets position object coordinates to match the user input.
-            activeItem.position.x = xCoord;
-            activeItem.position.y = yCoord;
-
-            // Sets 'deployed to grid' state to true to let widget know that furniture can't be deployed again.
-            activeItem.deployed = true;
         } else {
-            console.log("can't do that bub");
+            $('#form__input-output').val(`Error: ${errorCodes[2]}`);
         }
         
     });
@@ -201,11 +242,6 @@ const grid = {};
 // sizeY: The vertical length of the grid in units of "cells".
 grid.sizeX = 0;
 grid.sizeY = 0;
-
-// NOTE: VERY IMPORTANT ARRAY.
-// cellArray: An array that represents all the cells on the grid. 
-// element of cellArray -> [{ occupied: <boolean>, {jQuery object representing cell div} }]
-grid.cellArray = [];
 
 // // ******* INIT METHOD *******
 
@@ -236,7 +272,7 @@ grid.init = function (x, y) {
             tempArray.push({occupied: false, element: $(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid")});
         }
         // Pushes the vertical array into cellArray.
-        this.cellArray.push(tempArray);
+        cellArray.push(tempArray);
     }
 
     $(".floor-plan__div-grid").width(cellUnit * x);
@@ -244,7 +280,7 @@ grid.init = function (x, y) {
     this.sizeY = y;
 
     // Initialize the titles for images
-    for(furniture of item) {
+    for(furniture of items) {
         $(furniture.imgId).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${"$" + furniture.price}`);
     }
 
