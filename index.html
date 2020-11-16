@@ -20,12 +20,8 @@
         <div class="wrapper">
             <section class="floor-plan">
                 <div class="floor-plan__div-grid" id="floor-plan__div-grid">
-                    <!-- Generated tiles go here -->
+                    <!-- Generated cells go here -->
                     <!-- Generated items also go here -->
-                    
-                    <!-- <div class="test">
-                        <img src="./assets/noun_double_bed_3x2.png" alt="A topdown view of a double bed">
-                    </div> -->
                 </div>
             </section>
             <section class="tool">
@@ -56,19 +52,20 @@
                         <input type="number" name="cell-x" id="form__input-cell-x" min="0" required="true">
                         <label for="cell-y-cell-y">Y:</label>
                         <input type="number" name="cell-y" id="form__input-cell-y" min="0" required="true">
-                        <button id="translate-up" aria-label="translate up"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
+                        <!-- NOTE: TRANSLATIONAL CONTROLS TO BE IMPLEMENTED AT FUTURE DATE -->
+                        <!-- <button id="translate-up" aria-label="translate up"><i class="fas fa-arrow-up" aria-hidden="true"></i></button>
                         <div class="form__div-arrow-lat">
                             <button id="translate-left" aria-label="translate left"><i class="fas fa-arrow-left" aria-hidden="true"></i></button>
                             <button id="translate-right" aria-label="translate right"><i class="fas fa-arrow-right" aria-hidden="true"></i></button>
                         </div>
-                        <button id="translate-down" aria-label="translate down"><i class="fas fa-arrow-down" aria-hidden="true"></i></button>
+                        <button id="translate-down" aria-label="translate down"><i class="fas fa-arrow-down" aria-hidden="true"></i></button> -->
                     </fieldset>
 
                     <fieldset class="form__fieldset-controls">
                         <legend>Furniture Orientation</legend>
                         <button type="button" id="rotate-ccw" aria-label="rotate counter-clockwise"><i class="fas fa-undo" aria-hidden="true"></i></button>
                         <button type="button" id="rotate-cw" aria-label="rotate clockwise"><i class="fas fa-undo fa-flip-horizontal" aria-hidden="true"></i></button>
-                        <label for="direction">Direction: </label>
+                        <label for="form__input-direction">Direction: </label>
                         <input type="text" name="direction" id="form__input-direction" readonly="true">
                     </fieldset>
 
@@ -77,7 +74,6 @@
                         <label for="form__input-output"><span class="sr-only">Output</span></label>
                         <textarea name="output" id="form__input-output" readonly="true"></textarea>
                     </fieldset>
-                    <!-- <button type="submit" id="preview">Preview</button> -->
                     <button type="submit" id="confirm">Drop Furniture</button>
                 </form>
                 <p class="noun-project">Furniture icons created by <a href="https://thenounproject.com/DenisseRa/collection/top-view-furniture/">Denisse Reyes</a> from Noun Project.</p>
