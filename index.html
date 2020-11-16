@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,22 +7,26 @@
     <link rel="stylesheet" href="./styles/style.css">
     <title>Grid x Drop</title>
 </head>
-
 <body>
+    <!-- ***** HEADER ***** -->
     <header>
         <div class="wrapper">
             <h1>Grid x Drop</h1>
             <h2>Your floor plan simulator for laying out ideas.</h2>
         </div>
     </header>
+    <!-- ***** MAIN ***** -->
     <main>
         <div class="wrapper">
+            <!-- ***** THE GRID ***** -->
             <section class="floor-plan" aria-hidden="true">
                 <div class="floor-plan__div-grid" id="floor-plan__div-grid">
                     <!-- Generated cells go here -->
                     <!-- Generated items also go here -->
                 </div>
             </section>
+
+            <!-- ***** THE TOOL WIDGET ***** -->
             <section class="tool">
                 <h3>Tool Widget</h3>
                 <form class="tool__form-widget" id="tool__form-widget">
@@ -80,6 +83,7 @@
             </section>
         </div>
     </main>
+    <!-- ***** FOOTER ***** -->
     <footer>
         <div class="wrapper">
             <p class="copywrite">Copyright © 2020 <span><a href="https://victorhok.com/" class="copywrite">Victor Hok</a></span></p>
@@ -89,5 +93,4 @@
         crossorigin="anonymous"></script>
     <script src="./gridxdrop.js"></script>
 </body>
-
 </html>

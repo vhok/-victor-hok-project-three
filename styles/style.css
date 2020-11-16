@@ -421,6 +421,10 @@ main .wrapper {
   margin: 0 10px;
 }
 
+.tool__form-widget input[type="radio"] {
+  display: none;
+}
+
 button {
   background-color: #fadcac;
   padding: 7px 16px;

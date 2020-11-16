@@ -97,7 +97,6 @@ main .wrapper {
     @include cell-width(3);
 }
 
-
 // FORMS, LABELS, INPUTS, BUTTONS
 .form__fieldset-location, .form__fieldset-controls, .form__fieldset-details {
     text-align: center;
@@ -122,7 +121,7 @@ main .wrapper {
 }
 
 .tool__form-widget input[type="radio"] {
-    // display: none;
+    display: none;
 }
 
 button {

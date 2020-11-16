@@ -14,10 +14,10 @@ cellArray = [];
 // An array 'item' containing all furniture objects.
 const items = [{
         sku: 'BEDDBLNEL',
-        name: "Neljyak Double Bed",
+        name: 'Neljyak Double Bed',
         id: 'bed',
         imgId: '#tool__div-img-bed',
-        description: "Crafted with black walnut wood and titanium tubing. This bed was made to last.",
+        description: 'Crafted with black walnut wood and titanium tubing. This bed was made to last.',
         price: 499.99,
         sizeX: 2,
         sizeY: 3,
@@ -31,10 +31,10 @@ const items = [{
     },
     {
         sku: 'SOFAMARA',
-        name: "Marathon Sofa",
+        name: 'Marathon Sofa',
         id: 'sofa',
         imgId: '#tool__div-img-sofa',
-        description: "Super comfortable. Fits at least 3 people. Perfect for friends crashing over for a marathon of 'Buffy the Vampire Slayer'.",
+        description: 'Super comfortable. Fits at least 3 people. Perfect for friends crashing over for a marathon of "Buffy the Vampire Slayer".',
         price: 349.99,
         sizeX: 3,
         sizeY: 1,
@@ -48,10 +48,10 @@ const items = [{
     },
     {
         sku: 'FRIDGEBIG',
-        name: "One Big Fridge",
+        name: 'One Big Fridge',
         id: 'fridge',
         imgId: '#tool__div-img-fridge',
-        description: "It was a commercial grade fridge. Why would you ever need one that big?... But, HEY, it was on SALE.",
+        description: 'It was a commercial grade fridge. Why would you ever need one that big?... But, HEY, it was on SALE.',
         price: 199.99,
         sizeX: 3,
         sizeY: 2,
@@ -64,7 +64,7 @@ const items = [{
         deployed: false
 }];
 
-// Error codes mainly for accessibility users that can't experience full visualization and may require other forms of feedback. These are printed to output field in widget.
+// Error codes, helpful for accessibility to interpret problems placing items.
 const errorCodes = [
     'object out of bounds',
     'collision with object',
@@ -113,7 +113,7 @@ widget.isCollision = (itemCheckCollides, xCheckCollides, yCheckCollides) => {
     const xLength = isNeutralOrientation ? itemCheckCollides.sizeX : itemCheckCollides.sizeY;
     const yLength = isNeutralOrientation ? itemCheckCollides.sizeY : itemCheckCollides.sizeX;
 
-    // Never allow the array to search outside the grid.
+    // Prevents array to search outside the grid. Caps the values to the boundaries of the grid size.
     const xToCheck = (xCheckCollides + xLength - 1 < gridLengthX) ? xCheckCollides + xLength : gridLengthX - 1;
     const yToCheck = (yCheckCollides + yLength - 1 < gridLengthY) ? yCheckCollides + yLength : gridLengthY - 1;
 
@@ -138,7 +138,7 @@ widget.isOutOfBounds = (itemCheckBounds, xCheckBounds, yCheckBounds) => {
 
 // ******* EVENT LISTENER METHODS *******
 
-// .updateFieldsListener(): 
+// .updateFieldsListener(): Clicking the furniture labels trigger the fields to be populated with their data.
 widget.updatetFieldsListener = () => {
     $('#tool__form-widget .furniture').on('click', () => {
         const activeItem = widget.getActiveItem();
@@ -152,6 +152,7 @@ widget.translateListener = () => {
     // NOTE: TO BE IMPLEMENTED IN THE FUTURE.
 };
 
+// .rotateListener(): Clicking on either clockwise or counter-clockwise buttons will cause the furniture orientation to change.
 widget.rotateListener = () => {
     $('#rotate-ccw').on('click', (event) => {
         event.preventDefault();
@@ -182,7 +183,7 @@ widget.rotateListener = () => {
     });
 };
 
-// submit action for item placement.
+// .moveListener(): Submit event causes a series of validation checks to determine whether an item should be placed, and then displays the item on the grid and updates the item's data.
 widget.moveListener = () => {
     $('form').on('submit', function(event) {
         const activeItem = widget.getActiveItem();
@@ -235,15 +236,16 @@ widget.moveListener = () => {
                     rotateTransform = '';
                 }
 
+                // Append the item to the grid after all the calculations and transformations are calculated.
                 $(`
             <div class="floor-plan__div-img" id=${activeItem.id}-cell>
                 <img src=${activeItem.url} alt=${activeItem.description}>
             </div>`)
-                    .appendTo("#floor-plan__div-grid")
+                    .appendTo('#floor-plan__div-grid')
                     .width(activeItem.sizeX * cellUnit)
-                    .css("left", xTransform + 'px')
-                    .css("top", yTransform + 'px')
-                    .css("transform", rotateTransform);
+                    .css('left', xTransform + 'px')
+                    .css('top', yTransform + 'px')
+                    .css('transform', rotateTransform);
             } else if(isCollision && isOutOfBounds) {
                 // Collision and out of bounds error.
                 $('#form__input-output').val(`Error: ${errorCodes[1]} & ${errorCodes[0]}`);
@@ -298,13 +300,13 @@ grid.init = function (x, y) {
 
         for (let j = 0; j < y; j++) {
             // Creates a 'cell' object, appends it to the grid, and pushes its jQuery object into a temporary array.
-            tempArray.push({occupied: false, element: $(`<div class="floor-plan__div-cell"></div>`).appendTo("#floor-plan__div-grid")});
+            tempArray.push({occupied: false, element: $('<div class="floor-plan__div-cell"></div>').appendTo('#floor-plan__div-grid')});
         }
         // Pushes the vertical array into cellArray.
         cellArray.push(tempArray);
     }
 
-    $(".floor-plan__div-grid").width(cellUnit * x);
+    $('.floor-plan__div-grid').width(cellUnit * x);
     this.sizeX = x;
     this.sizeY = y;
 
@@ -314,7 +316,7 @@ grid.init = function (x, y) {
 
     // Initialize the titles for images
     for(furniture of items) {
-        $(furniture.imgId).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${"$" + furniture.price}`);
+        $(furniture.imgId).attr('title', `SKU: ${furniture.sku}\nName: ${furniture.name}\nDescription: ${furniture.description}\nPrice: ${'$' + furniture.price}`);
     }
 
     // Initialize widget functionality
@@ -322,8 +324,6 @@ grid.init = function (x, y) {
     widget.rotateListener();
     widget.moveListener();
 };
-
-
 
 // DOCUMENT READY
 $(function() {
