@@ -21,7 +21,7 @@ const items = [{
         price: 499.99,
         sizeX: 2,
         sizeY: 3,
-        url: './assets/noun_double_bed_3x2.png',
+        url: './assets/noun-double-bed-3x2.png',
         position: {
             x: 0,
             y: 0,
@@ -38,7 +38,7 @@ const items = [{
         price: 349.99,
         sizeX: 3,
         sizeY: 1,
-        url: './assets/noun_Sofa_3x1.png',
+        url: './assets/noun-sofa-3x1.png',
         position: {
             x: 0,
             y: 0,
@@ -55,7 +55,7 @@ const items = [{
         price: 199.99,
         sizeX: 3,
         sizeY: 2,
-        url: './assets/noun_Refrigerator_3x2.png',
+        url: './assets/noun-refrigerator-3x2.png',
         position: {
             x: 0,
             y: 0,
