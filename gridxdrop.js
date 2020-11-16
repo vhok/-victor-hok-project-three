@@ -158,7 +158,7 @@ widget.rotateListener = () => {
         event.preventDefault();
         const activeItem = widget.getActiveItem();
 
-        if(activeItem) {
+        if(activeItem && !activeItem.deployed) {
             activeItem.position.rotation -= 1;
             const rotationValue = widget.getRotateValueReduced(activeItem.position.rotation);
             const rotationText = widget.getRotateDirection(rotationValue);
@@ -172,7 +172,7 @@ widget.rotateListener = () => {
         event.preventDefault();
         const activeItem = widget.getActiveItem();
 
-        if(activeItem) {
+        if(activeItem && !activeItem.deployed) {
             activeItem.position.rotation += 1;
             const rotationValue = widget.getRotateValueReduced(activeItem.position.rotation);
             const rotationText = widget.getRotateDirection(rotationValue);
