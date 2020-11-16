@@ -122,7 +122,7 @@ main .wrapper {
 }
 
 .tool__form-widget input[type="radio"] {
-    display: none;
+    // display: none;
 }
 
 button {
@@ -145,13 +145,10 @@ button {
 
     .floor-plan {
             max-width: 100%;
-            max-height: 80vh;
-            overflow: auto;
     }
 
     .tool {
         @include template-box();
-        min-height: 800px;
         width: 100%;
         margin-top: 10px;
     }

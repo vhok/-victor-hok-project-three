@@ -149,7 +149,7 @@ widget.updatetFieldsListener = () => {
 };
 
 widget.translateListener = () => {
-    // $('.form__input-cell-x')
+    // NOTE: TO BE IMPLEMENTED IN THE FUTURE.
 };
 
 widget.rotateListener = () => {
@@ -199,12 +199,13 @@ widget.moveListener = () => {
             const isCollision = widget.isCollision(activeItem, xProposed, yProposed);
 
             if (!(isOutOfBounds || isCollision)) {
+                // Refreshes output textarea
+                $('#form__input-output').val('');
 
                 // Update all remaining fields in the item object.
                 activeItem.deployed = true;
                 activeItem.position.x = xProposed;
                 activeItem.position.y = yProposed;
-                $('#form__input-output').val('');
 
                 // Updates cellArray coordinates to let the program know those cells are occupied by an item.
                 const isNeutralOrientation = activeItem.position.rotation % 2 === 0;
@@ -235,7 +236,7 @@ widget.moveListener = () => {
                 }
 
                 $(`
-            <div class="floor-plan__div-img" id=${activeItem.id}>
+            <div class="floor-plan__div-img" id=${activeItem.id}-cell>
                 <img src=${activeItem.url} alt=${activeItem.description}>
             </div>`)
                     .appendTo("#floor-plan__div-grid")
